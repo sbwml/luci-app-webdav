@@ -80,9 +80,10 @@ return view.extend({
 		o.default = 6086;
 		o.rmempty = false;
 
-		o = s.option(form.Value, 'username', _('Username'), _("Leave blank to disable auth."));
+		o = s.option(form.Value, 'username', _('Username'));
 
 		o = s.option(form.Value, 'password', _('Password'), _("Leave blank to disable auth."));
+		o.password = true;
 
 		o = s.option(form.Value, 'root_dir', _('Root Directory'));
 		o.default = '/mnt';
