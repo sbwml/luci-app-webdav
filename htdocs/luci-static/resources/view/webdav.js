@@ -100,9 +100,11 @@ return view.extend({
 		o.rmempty = false;
 
 		o = s.option(form.Value, 'cert_cer', _('SSL cert'), _('SSL certificate file path.'));
+		o.rmempty = false;
 		o.depends('ssl', '1');
 
 		o = s.option(form.Value, 'cert_key', _('SSL key'), _('SSL key file path.'));
+		o.rmempty = false;
 		o.depends('ssl', '1');
 
 		o = s.option(form.Button, '_downloadreg', null,
