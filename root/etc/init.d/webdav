@@ -19,13 +19,6 @@ get_config() {
 	config_get "ssl" "config" "ssl" "0"
 	config_get "cert_cer" "config" "cert_cer" ""
 	config_get "cert_key" "config" "cert_key" ""
-	config_load network
-	config_get lan_addr lan ipaddr "0.0.0.0"
-	if echo "${lan_addr}" | grep -Fq ' '; then
-		lan_addr="0.0.0.0"
-	else
-		lan_addr=${lan_addr%%/*}
-	fi
 }
 
 set_firewall() {
@@ -51,21 +44,17 @@ start() {
 	get_config
 	[ "$enable" -ne "1" ] && return 1
 	[ ! -d "$root_dir" ] && mkdir -p "$root_dir"
-	if [ "$firewall_accept" -eq "1" ]; then
-		listen_addr="0.0.0.0"
-		external_access="allow"
-	else
-		listen_addr="$lan_addr"
-		external_access="deny"
-	fi
+	[ "$firewall_accept" -eq "1" ] && external_access="allow" || external_access="deny"
 	set_firewall
 	{
 		printf "server {"
 		if [ "$ssl" -eq "1" ]; then
-			printf "\n\tlisten ${listen_addr}:${listen_port} ssl;"
+			printf "\n\tlisten ${listen_port} ssl;"
+			printf "\n\tlisten [::]:${listen_port} ssl;"
 			printf "\n\thttp2 on;"
 		else
-			printf "\n\tlisten ${listen_addr}:${listen_port};"
+			printf "\n\tlisten ${listen_port};"
+			printf "\n\tlisten [::]:${listen_port};"
 		fi
 		printf "\n\tserver_name _;"
 		printf "\n\tcharset utf-8,gbk;"
