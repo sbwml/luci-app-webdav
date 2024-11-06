@@ -89,16 +89,20 @@ return view.extend({
 		o.default = '/mnt';
 		o.rmempty = false;
 
-		o = s.option(form.Flag, 'allow_wan', _('Allow Access From Internet'));
+		o = s.option(form.Flag, 'read_only', _('Read-Only Mode'));
+		o.default = false;
+		o.rmempty = false;
+
+		o = s.option(form.Flag, 'firewall_accept', _('Open firewall port'));
 		o.rmempty = false;
 
 		o = s.option(form.Flag, 'ssl', _('Enable SSL'));
 		o.rmempty = false;
 
-		o = s.option(form.Value, 'cert_cer', _('Path to Certificate'));
+		o = s.option(form.Value, 'cert_cer', _('SSL cert'), _('SSL certificate file path.'));
 		o.depends('ssl', '1');
 
-		o = s.option(form.Value, 'cert_key', _('Path to Certificate Key'));
+		o = s.option(form.Value, 'cert_key', _('SSL key'), _('SSL key file path.'));
 		o.depends('ssl', '1');
 
 		o = s.option(form.Button, '_downloadreg', null,

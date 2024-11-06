@@ -1,8 +1,8 @@
-msgid "WebDav"
-msgstr "WebDav"
+msgid "WebDAV"
+msgstr "WebDAV"
 
 msgid "A lightweight, simple, and fast WebDAV server based on NGINX."
-msgstr "基于 NGINX 实现的一个轻巧、简单、快速的 WebDav 服务端。"
+msgstr "基于 NGINX 实现的一个轻巧、简单、快速的 WebDAV 服务端。"
 
 msgid "Open Web Interface"
 msgstr "打开 Web 界面"
@@ -22,20 +22,23 @@ msgstr "密码"
 msgid "Leave blank to disable auth."
 msgstr "留空以禁用身份验证。"
 
-msgid "Root Directory"
-msgstr "开放目录"
+msgid "WebDAV Directory"
+msgstr "WebDAV 目录"
 
-msgid "Allow Access From Internet"
-msgstr "允许从外网访问"
+msgid "Read-Only Mode"
+msgstr "只读模式"
+
+msgid "Open firewall port"
+msgstr "打开防火墙端口"
 
 msgid "Enable SSL"
 msgstr "启用 SSL"
 
-msgid "Path to Certificate"
-msgstr "证书位置"
+msgid "SSL certificate file path."
+msgstr "SSL 证书文件路径。"
 
-msgid "Path to Certificate Key"
-msgstr "密钥位置"
+msgid "SSL key file path."
+msgstr "SSL 密钥文件路径。"
 
 msgid "Download Reg File"
 msgstr "下载注册表文件"

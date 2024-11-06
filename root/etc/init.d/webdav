@@ -14,7 +14,8 @@ get_config() {
 	config_get "username" "config" "username"
 	config_get "password" "config" "password"
 	config_get "root_dir" "config" "root_dir" "/mnt"
-	config_get "allow_wan" "config" "allow_wan" "0"
+	config_get "read_only" "config" "read_only" "0"
+	config_get "firewall_accept" "config" "firewall_accept" "0"
 	config_get "ssl" "config" "ssl" "0"
 	config_get "cert_cer" "config" "cert_cer" ""
 	config_get "cert_key" "config" "cert_key" ""
@@ -50,7 +51,7 @@ start() {
 	get_config
 	[ "$enable" -ne "1" ] && return 1
 	[ ! -d "$root_dir" ] && mkdir -p "$root_dir"
-	if [ "$allow_wan" -eq "1" ]; then
+	if [ "$firewall_accept" -eq "1" ]; then
 		listen_addr="0.0.0.0"
 		external_access="allow"
 	else
@@ -66,20 +67,17 @@ start() {
 		else
 			printf "\n\tlisten ${listen_addr}:${listen_port};"
 		fi
-
 		printf "\n\tserver_name _;"
 		printf "\n\tcharset utf-8,gbk;"
 		printf "\n\troot ${root_dir};"
 		printf "\n\taccess_log off;"
 		printf "\n\terror_log off;"
 		if [ "$ssl" -eq "1" ]; then
-			# SSL Certificate
 			printf "\n\tssl_certificate ${cert_cer};"
 			printf "\n\tssl_certificate_key ${cert_key};"
 			printf "\n\tssl_session_timeout 1d;"
 			printf "\n\tssl_session_tickets on;"
 			printf "\n\tssl_session_cache shared:SSL:10m;"
-			# modern configuration
 			printf "\n\tssl_protocols TLSv1.2 TLSv1.3;"
 			printf "\n\tssl_prefer_server_ciphers off;"
 			printf "\n\tssl_ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305;"
@@ -97,7 +95,7 @@ start() {
 		printf "\n\t\tcreate_full_put_path on;"
 		printf "\n\t\tdav_access user:rw group:rw all:r;"
 		printf "\n\t\tdav_ext_methods PROPFIND OPTIONS;"
-		printf "\n\t\tdav_methods PUT DELETE MKCOL COPY MOVE;"
+		[ "$read_only" -eq "1" ] && printf "\n\t\tdav_methods off;" || printf "\n\t\tdav_methods PUT DELETE MKCOL COPY MOVE;"
 		printf "\n\t}"
 		printf "\n}\n"
 	} > "${NGINX_DAV_CONF}"
