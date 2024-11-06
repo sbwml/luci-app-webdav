@@ -85,7 +85,7 @@ return view.extend({
 		o = s.option(form.Value, 'password', _('Password'), _("Leave blank to disable auth."));
 		o.password = true;
 
-		o = s.option(form.Value, 'root_dir', _('Root Directory'));
+		o = s.option(form.Value, 'root_dir', _('WebDAV Directory'));
 		o.default = '/mnt';
 		o.rmempty = false;
 
