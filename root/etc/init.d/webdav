@@ -72,6 +72,7 @@ start() {
 		printf "\n\troot ${root_dir};"
 		printf "\n\taccess_log off;"
 		printf "\n\terror_log off;"
+		printf "\n\tclient_body_temp_path ${root_dir};"
 		if [ "$ssl" -eq "1" ]; then
 			printf "\n\tssl_certificate ${cert_cer};"
 			printf "\n\tssl_certificate_key ${cert_key};"
