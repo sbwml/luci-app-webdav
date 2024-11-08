@@ -43,7 +43,7 @@ set_firewall() {
 start() {
 	get_config
 	[ "$enable" -ne "1" ] && return 1
-	[ ! -d "$root_dir" ] && mkdir -p "$root_dir"
+	[ ! -d "$root_dir" ] && mkdir -p "${root_dir}/.webdav_temp"
 	[ "$firewall_accept" -eq "1" ] && external_access="allow" || external_access="deny"
 	set_firewall
 	{
@@ -61,7 +61,7 @@ start() {
 		printf "\n\troot ${root_dir};"
 		printf "\n\taccess_log off;"
 		printf "\n\terror_log off;"
-		printf "\n\tclient_body_temp_path ${root_dir};"
+		printf "\n\tclient_body_temp_path ${root_dir}/.webdav_temp;"
 		if [ "$ssl" -eq "1" ]; then
 			printf "\n\tssl_certificate ${cert_cer};"
 			printf "\n\tssl_certificate_key ${cert_key};"
@@ -101,7 +101,7 @@ start() {
 }
 
 stop() {
-	rm -f "${NGINX_DAV_CONF}" "${NGINX_DAV_PASSWORD}"
+	rm -f "${NGINX_DAV_CONF}" "${NGINX_DAV_PASSWORD}" ${root_dir}/.webdav_temp
 	/etc/init.d/nginx reload
 	external_access="deny"
 	set_firewall
